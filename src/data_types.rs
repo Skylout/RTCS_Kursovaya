@@ -14,7 +14,7 @@ pub mod data_types {
     }
 
     //снек-кейс тут не применяется по простой причине - это инородный объект,
-//его стиль подогнан под JS
+    //его стиль подогнан под JS
     #[derive(Serialize, Deserialize)]
     pub struct JsonMessage {
         pub temperatureValue1: i32,

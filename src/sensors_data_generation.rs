@@ -1,10 +1,12 @@
-use std::sync::{Arc, Mutex, Condvar};
+
+use std::sync::{Arc, Mutex};
 use std::sync::mpsc::Sender;
 use rand::Rng;
 use std::thread::sleep;
 use std::time::{Duration};
 
-fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &Sender<bool>){
+//TODO: сделать на условных переменных может быть?
+pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &Sender<bool>){
     let mut local_int_tuple = local_mutex.lock().unwrap();
     let mut rng = rand::thread_rng();
 
@@ -32,7 +34,7 @@ fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &Se
 
 }
 
-fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &Sender<bool>){
+pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &Sender<bool>){
     let mut local_int_tuple = local_mutex.lock().unwrap();
     let mut rng = rand::thread_rng();
     /*
