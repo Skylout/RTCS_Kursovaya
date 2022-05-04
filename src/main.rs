@@ -5,7 +5,7 @@ use std::time::{Duration};
 
 use crate::data_checking::check_data;
 use crate::sensors_data_generation::{humidity_data_generation, temperature_data_generation};
-use crate::data_types::data_types::Telegram;
+use crate::data_types::data_types::{JsonMessage, Telegram};
 
 mod sensors_data_generation;
 mod data_types;
@@ -74,31 +74,23 @@ fn main() {
 
         }
         //проверенный модуль отправки
-/*
-        let json_local_mutex = temp_int_mutex.lock().unwrap();
-        let json_local_mutex1 = temp_second_int_mutex.lock().unwrap();
+      let temp_data_obj = JsonMessage::init_via_mutex(temperature_mutex.lock().unwrap(),
+                                                            humidity_mutex.lock().unwrap(),
+                                                            "OK".to_string());
+        let temp_json_obj = temp_data_obj.serialization();
+        println!("{:?}", temp_json_obj);
+        /*
+                let send_thread = thread::spawn(|| {
+                    let send_result = send_data_via_http(temp_json_obj);
 
-        let temp_data_obj = JsonMessage{
-            temperature_value1: json_local_mutex.0,
-            temperature_value2: json_local_mutex.1,
-            humidity_value1: json_local_mutex1.0,
-            humidity_value2: json_local_mutex1.1,
-            status: "OK".to_string()
-        };
-
-        let temp_json_obj = serde_json::to_string(&temp_data_obj).unwrap();
-        println!("Here: {}", temp_json_obj);
-        let send_thread = thread::spawn(|| {
-            let send_result = send_data_via_http(temp_json_obj);
-
-            match send_result {
-                Ok(_) => {
-                    println!("WE DONE");
-                }
-                Err(err) => {
-                    println!("ERROR: {}", err);
-                }
-            }
-        });*/
+                    match send_result {
+                        Ok(_) => {
+                            println!("WE DONE");
+                        }
+                        Err(err) => {
+                            println!("ERROR: {}", err);
+                        }
+                    }
+                });*/
     }
 }
