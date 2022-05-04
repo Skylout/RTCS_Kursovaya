@@ -23,6 +23,7 @@ pub mod data_types {
         pub temperatureValue2: i32,
         pub humidityValue1: i32,
         pub humidityValue2: i32,
+        pub dateTime: String,
         pub status: String
     }
 
@@ -40,6 +41,7 @@ pub mod data_types {
                 temperatureValue2: temperature_mutex.1,
                 humidityValue1: humidity_mutex.0,
                 humidityValue2: humidity_mutex.1,
+                dateTime: Local::now().to_string(),
                 status: status.to_string()
             }
         }
