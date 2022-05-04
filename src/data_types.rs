@@ -10,7 +10,7 @@ pub mod data_types {
         pub troubles_counter: i32
     }
 
-    struct ProgramConfig {
+    pub struct ProgramConfig {
         pub url: String,
         pub sensors_errors: i32, //погрешность
     }
