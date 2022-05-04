@@ -9,7 +9,6 @@ pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender:
     let mut local_int_tuple = local_mutex.lock().unwrap();
     let mut rng = rand::thread_rng();
 
-    //TODO: сделать АШИБОЧКУ показаний для нормального теста
         if local_int_tuple.0 == 0 {
             local_int_tuple.0 = rng.gen_range(15..24);
         } else {
@@ -19,17 +18,21 @@ pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender:
             }
         }
 
-    //TODO: посмотреть способы работы с MutexGuard
+        if rng.gen_range(0..101)>95{
+            local_int_tuple.0 = rng.gen_range(0..100);
+        }
 
         if local_int_tuple.1 == 0 {
-            local_int_tuple.1 = rng.gen_range(15..24);
+            local_int_tuple.1 = local_int_tuple.0;
         } else {
             local_int_tuple.1 += rng.gen_range(-2..2);
             if local_int_tuple.1 > 25 {
                 local_int_tuple.1 -= 1;
             }
         }
-
+        if rng.gen_range(0..101)>95{
+            local_int_tuple.1 = rng.gen_range(0..100);
+        }
 
     drop(local_int_tuple);
 
@@ -47,8 +50,6 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
     let mut local_int_tuple = local_mutex.lock().unwrap();
     let mut rng = rand::thread_rng();
 
-    //TODO: сделать АШИБОЧКУ показаний (типа выход за предел 65) для нормального теста
-
 
         if local_int_tuple.0 == 0 {
             local_int_tuple.0 = rng.gen_range(35..55);
@@ -59,10 +60,12 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
             }
         }
 
-
+    if rng.gen_range(0..101)>95{
+        local_int_tuple.0 = rng.gen_range(60..100);
+    }
 
         if local_int_tuple.1 == 0 {
-            local_int_tuple.1 = rng.gen_range(35..55);
+            local_int_tuple.1 = local_int_tuple.0;
         } else {
             local_int_tuple.1 += rng.gen_range(-3..4);
             if local_int_tuple.1 > 60 {
@@ -70,6 +73,9 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
             }
         }
 
+    if rng.gen_range(0..101)>95{
+        local_int_tuple.1 = rng.gen_range(60..100);
+    }
 
     drop(local_int_tuple);
 
