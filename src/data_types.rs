@@ -1,5 +1,7 @@
 pub mod data_types {
+    use std::sync::MutexGuard;
     use chrono;
+    use chrono::{DateTime, Local};
     use serde::{Deserialize, Serialize};
 
     pub struct Telegram {
@@ -22,5 +24,24 @@ pub mod data_types {
         pub humidityValue1: i32,
         pub humidityValue2: i32,
         pub status: String
+    }
+
+    impl JsonMessage {
+        fn serialization (&self)->String{
+            let temp_json_obj = serde_json::to_string(&self).unwrap();
+            return  temp_json_obj;
+        }
+
+        fn init_via_mutex (temperature_mutex: MutexGuard<(i32,i32)>,
+                           humidity_mutex: MutexGuard<(i32,i32)>,
+                           status: String)->JsonMessage{
+            return JsonMessage{
+                temperatureValue1: temperature_mutex.0,
+                temperatureValue2: temperature_mutex.1,
+                humidityValue1: humidity_mutex.0,
+                humidityValue2: humidity_mutex.1,
+                status: status.to_string()
+            }
+        }
     }
 }

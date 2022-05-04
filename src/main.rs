@@ -33,7 +33,7 @@ fn main() {
 
     let (temperature_tx, temperature_rx) = mpsc::channel();
     let (humidity_tx, humidity_rx) = mpsc::channel();
-    let (checker_tx, checker_rx) = mpsc::channel();
+    //let (checker_tx, checker_rx) = mpsc::channel();
 
     let temperature_thread = thread::spawn(move || loop {
         temperature_data_generation( &temperature_mutex_copy, &temperature_tx);
@@ -42,7 +42,10 @@ fn main() {
         humidity_data_generation(&humidity_mutex_copy, &humidity_tx);
     });
 
-    //цикл чтения сигналов по дедлайну. дедлайн прошел - ошибка. данные неправильные - ошибка
+    // цикл чтения сигналов по дедлайну.
+    // дедлайн прошел - ошибка и отправка сообщения об ошибке.
+    // поток проверка и результат проверки
+    // данные неправильные - ошибка и отправка сообщения об ошибке.
     loop{
         match temperature_rx.recv_timeout(Duration::from_secs(4)) {
             Ok(resp) => {
@@ -70,7 +73,7 @@ fn main() {
         } else {
 
         }
-        //проверенный модуль отправки.
+        //проверенный модуль отправки
 /*
         let json_local_mutex = temp_int_mutex.lock().unwrap();
         let json_local_mutex1 = temp_second_int_mutex.lock().unwrap();
@@ -86,7 +89,7 @@ fn main() {
         let temp_json_obj = serde_json::to_string(&temp_data_obj).unwrap();
         println!("Here: {}", temp_json_obj);
         let send_thread = thread::spawn(|| {
-            let send_result = send_json(temp_json_obj);
+            let send_result = send_data_via_http(temp_json_obj);
 
             match send_result {
                 Ok(_) => {
