@@ -29,8 +29,7 @@ pub mod data_types {
 
     impl JsonMessage {
         pub fn serialization (&self)->String{
-            let temp_json_obj = serde_json::to_string(&self).unwrap();
-            return  temp_json_obj;
+            return  serde_json::to_string(&self).unwrap();
         }
 
         pub fn init_via_mutex (temperature_mutex: MutexGuard<(i32,i32)>,
