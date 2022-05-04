@@ -6,11 +6,13 @@ use std::time::{Duration};
 use crate::data_checking::check_data;
 use crate::sensors_data_generation::{humidity_data_generation, temperature_data_generation};
 use crate::data_types::data_types::{JsonMessage, Telegram};
+use crate::inner_logic::inner_logic::{copy_mutex, create_mutex};
 
 mod sensors_data_generation;
 mod data_types;
 mod networking;
 mod data_checking;
+mod inner_logic;
 
 //Да согреет Мать Бодхо твои следы!
 //Когдая писал этот код, то только я и Бос Турох знали, как
@@ -24,22 +26,19 @@ fn main() {
     };
     let mut sensor_signals = (false, false);
 
-    let temperature_mutex = Arc::new(Mutex::new(data.temperature_values));
-    let humidity_mutex = Arc::new(Mutex::new(data.humidity_values));
-
+    let sensor_mutexs = create_mutex(&data);
     //ссылки мьютексов для спокойной передачи владения
-    let temperature_mutex_copy = Arc::clone(&temperature_mutex);
-    let humidity_mutex_copy = Arc::clone(&humidity_mutex);
+    let sensors_mutex_copy = copy_mutex(&sensor_mutexs);
 
     let (temperature_tx, temperature_rx) = mpsc::channel();
     let (humidity_tx, humidity_rx) = mpsc::channel();
     //let (checker_tx, checker_rx) = mpsc::channel();
 
     let temperature_thread = thread::spawn(move || loop {
-        temperature_data_generation( &temperature_mutex_copy, &temperature_tx);
+        temperature_data_generation( &sensors_mutex_copy.0, &temperature_tx);
     });
     let humidity_thread = thread::spawn(move || loop {
-        humidity_data_generation(&humidity_mutex_copy, &humidity_tx);
+        humidity_data_generation(&sensors_mutex_copy.1, &humidity_tx);
     });
 
     // цикл чтения сигналов по дедлайну.
@@ -74,23 +73,11 @@ fn main() {
 
         }
         //проверенный модуль отправки
-      let temp_data_obj = JsonMessage::init_via_mutex(temperature_mutex.lock().unwrap(),
-                                                            humidity_mutex.lock().unwrap(),
+      let temp_data_obj = JsonMessage::init_via_mutex(sensor_mutexs.0.lock().unwrap(),
+                                                      sensor_mutexs.1.lock().unwrap(),
                                                             "OK".to_string());
         let temp_json_obj = temp_data_obj.serialization();
         println!("{:?}", temp_json_obj);
-        /*
-                let send_thread = thread::spawn(|| {
-                    let send_result = send_data_via_http(temp_json_obj);
 
-                    match send_result {
-                        Ok(_) => {
-                            println!("WE DONE");
-                        }
-                        Err(err) => {
-                            println!("ERROR: {}", err);
-                        }
-                    }
-                });*/
     }
 }
