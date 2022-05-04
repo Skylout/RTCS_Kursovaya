@@ -69,7 +69,9 @@ fn main() {
             Ok(resp) => {
                 sensor_signals.1 = resp;
             },
-            Err(RecvTimeoutError::Timeout) => sensor_signals.1 = false,
+            Err(RecvTimeoutError::Timeout) => {
+                sensor_signals.1 = false
+            },
             Err(RecvTimeoutError::Disconnected) => {
                 // handle disconnect
             }
