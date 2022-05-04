@@ -1,7 +1,10 @@
-use std::sync::mpsc::Sender;
+
+use std::sync::mpsc::{Sender,Receiver};
 use crate::data_types::data_types::Telegram;
 
-pub fn check_data (current_sensor_data: &Telegram, result_sender: &Sender<(bool,bool)>) {
+pub fn check_data (cur_rx:(Receiver<bool>,Receiver<bool>),
+                   current_sensor_data: &Telegram,
+                   result_sender: &Sender<(bool,bool)>) {
     let mut check_result = (true,true);
 
 

@@ -42,40 +42,19 @@ fn main() {
     //let (checker_tx, checker_rx) = mpsc::channel();
 
     let temperature_thread = thread::spawn(move || loop {
-        temperature_data_generation( &sensors_mutex_copy.0, &temperature_tx);
+        temperature_data_generation(&sensors_mutex_copy.0, &temperature_tx);
     });
     let humidity_thread = thread::spawn(move || loop {
         humidity_data_generation(&sensors_mutex_copy.1, &humidity_tx);
     });
+
 
     // цикл чтения сигналов по дедлайну.
     // дедлайн прошел - ошибка и отправка сообщения об ошибке.
     // поток проверка и результат проверки
     // данные неправильные - ошибка и отправка сообщения об ошибке.
     loop{
-        match temperature_rx.recv_timeout(Duration::from_secs(4)) {
-            Ok(resp) => {
-                sensor_signals.0 = resp;
-            },
-            Err(RecvTimeoutError::Timeout) => {
-                sensor_signals.0 = false
-            },
-            Err(RecvTimeoutError::Disconnected) => {
-                // handle disconnect
-            }
-        };
 
-        match humidity_rx.recv_timeout(Duration::from_secs(4)) {
-            Ok(resp) => {
-                sensor_signals.1 = resp;
-            },
-            Err(RecvTimeoutError::Timeout) => {
-                sensor_signals.1 = false
-            },
-            Err(RecvTimeoutError::Disconnected) => {
-                // handle disconnect
-            }
-        };
         //TODO: подумать над разными типами ошибок
         if sensor_signals.0 || sensor_signals.1{
             //TODO: вытащить в отдельный поток проверку?

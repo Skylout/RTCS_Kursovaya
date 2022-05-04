@@ -5,6 +5,9 @@ use rand::Rng;
 use std::thread::sleep;
 use std::time::{Duration};
 
+
+//TODO: придумать как отправлять данные на проверку, не выкидывая на мусорку мьютексы.
+// Подсказка - догадайся, как сделать сендер мьютексов - тем самым можно передавать значения
 pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &Sender<bool>){
     let mut local_int_tuple = local_mutex.lock().unwrap();
     let mut rng = rand::thread_rng();
