@@ -57,7 +57,9 @@ fn main() {
             Ok(resp) => {
                 sensor_signals.0 = resp;
             },
-            Err(RecvTimeoutError::Timeout) => sensor_signals.0 = false,
+            Err(RecvTimeoutError::Timeout) => {
+                sensor_signals.0 = false
+            },
             Err(RecvTimeoutError::Disconnected) => {
                 // handle disconnect
             }
@@ -74,7 +76,7 @@ fn main() {
         };
         //TODO: подумать над разными типами ошибок
         if sensor_signals.0 || sensor_signals.1{
-            //TODO: вытащить в отдельный поток
+            //TODO: вытащить в отдельный поток проверку?
 
             /*match checker_rx.recv_timeout(Duration::from_secs(4)) {
                 Ok(resp) => {
@@ -102,6 +104,6 @@ fn main() {
                                                             "OK".to_string());
         let temp_json_obj = temp_data_obj.serialization();
         println!("{:?}", temp_json_obj);
-
+        //TODO: добавить в отдельный поток отправку?
     }
 }
