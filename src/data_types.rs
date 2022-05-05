@@ -24,7 +24,6 @@ pub mod data_types {
         pub humidityValue1: i32,
         pub humidityValue2: i32,
         pub dateTime: String,
-        pub status: String
     }
 
     impl JsonMessage {
@@ -41,7 +40,6 @@ pub mod data_types {
                 humidityValue1: humidity_mutex.0,
                 humidityValue2: humidity_mutex.1,
                 dateTime: Local::now().to_string(),
-                status: status.to_string()
             }
         }
     }

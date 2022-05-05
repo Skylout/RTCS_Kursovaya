@@ -3,7 +3,6 @@ use std::sync::mpsc::RecvTimeoutError;
 use std::thread;
 use std::time::{Duration};
 
-use crate::data_checking::check_data;
 use crate::sensors_data_generation::{humidity_data_generation, temperature_data_generation};
 use crate::data_types::data_types::{JsonMessage, Telegram, ProgramConfig};
 use crate::inner_logic::inner_logic::{copy_mutex, create_mutex};
@@ -11,7 +10,6 @@ use crate::inner_logic::inner_logic::{copy_mutex, create_mutex};
 mod sensors_data_generation;
 mod data_types;
 mod networking;
-mod data_checking;
 mod inner_logic;
 
 //Да согреет Мать Бодхо твои следы!
