@@ -37,7 +37,6 @@ fn main() {
 
     let (temperature_tx, temperature_rx) = mpsc::channel();
     let (humidity_tx, humidity_rx) = mpsc::channel();
-    //let (checker_tx, checker_rx) = mpsc::channel();
 
     let temperature_thread = thread::spawn(move || loop {
         temperature_data_generation(&sensors_mutex_copy.0, &temperature_tx);
@@ -53,23 +52,27 @@ fn main() {
     // данные неправильные - ошибка и отправка сообщения об ошибке.
     loop{
 
-        //TODO: подумать над разными типами ошибок
-        if sensor_signals.0 || sensor_signals.1{
-            //TODO: вытащить в отдельный поток проверку?
+        match temperature_rx.recv_timeout(Duration::from_secs(5)) {
+            Ok(_) => {
 
-            /*match checker_rx.recv_timeout(Duration::from_secs(4)) {
-                Ok(resp) => {
-                    if !resp.0 || !resp.1 {
-                        config.sensors_errors += 1;
-                    }
-                },
-                Err(RecvTimeoutError::Timeout) => {
-                    config.sensors_errors += 1;
-                },
-                Err(RecvTimeoutError::Disconnected) => {
-                    // handle disconnect
-                }
-            };*/
+            }
+            Err(_) => {
+
+            }
+        }
+
+        match humidity_rx.recv_timeout(Duration::from_secs(5)) {
+            Ok(_) => {
+
+            }
+            Err(_) => {
+
+            }
+        }
+
+        if sensor_signals.0 || sensor_signals.1{
+            let temp_data_obj = JsonMessage::init_via_mutex(sensor_mutexs.0.lock().unwrap(), sensor_mutexs.1.lock().unwrap());
+            let temp_json_obj = temp_data_obj.serialization();
 
         } else {
             config.sensors_errors +=1;
@@ -78,11 +81,5 @@ fn main() {
             }
         }
 
-      let temp_data_obj = JsonMessage::init_via_mutex(sensor_mutexs.0.lock().unwrap(),
-                                                      sensor_mutexs.1.lock().unwrap(),
-                                                            "OK".to_string());
-        let temp_json_obj = temp_data_obj.serialization();
-        println!("{:?}", temp_json_obj);
-        //TODO: добавить в отдельный поток отправку?
     }
 }

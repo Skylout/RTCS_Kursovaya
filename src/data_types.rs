@@ -32,8 +32,7 @@ pub mod data_types {
         }
 
         pub fn init_via_mutex (temperature_mutex: MutexGuard<(i32,i32)>,
-                           humidity_mutex: MutexGuard<(i32,i32)>,
-                           status: String)->JsonMessage{
+                           humidity_mutex: MutexGuard<(i32,i32)>)->JsonMessage{
             return JsonMessage{
                 temperatureValue1: temperature_mutex.0,
                 temperatureValue2: temperature_mutex.1,
