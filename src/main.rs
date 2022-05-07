@@ -2,6 +2,8 @@ use chrono::Local;
 use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 use std::time::Duration;
+use std::env;
+use std::process::exit;
 
 use crate::data_types::data_types::{JsonDataMessage, JsonErrorMessage, ProgramConfig, Telegram};
 use crate::inner_logic::inner_logic::{copy_mutex, create_mutex};
@@ -18,17 +20,24 @@ mod sensors_data_generation;
 //он работает. Теперь знает только Бос Турох
 
 fn main() {
+    //а вот раст может только так в аргументы команднйо строки
+    let args: Vec<String> = env::args().collect();
+    if args.len() == 1{
+        println!("Lack of URL. Please, write correct URL.\n");
+        exit(0);
+    }
     //примечание: CLion умно подсказывает, что эта переменная не должна быть мутабельной
     //но это не так – чтобы нормально копошиться в её внутренностях надо, чтобы она была мутабельной
+
     let mut data = Telegram {
         temperature_values: (0, 0),
         humidity_values: (0, 0),
         troubles_counter: 0,
     };
 
-    //TODO: брать значение URL из аргумента командной строки
+    //http://localhost:1880/posting_link
     let mut config = ProgramConfig {
-        url: "http://localhost:1880/posting_link".to_string(),
+        url: args[1].to_string(),
         sensors_errors: 0,
         sending_errors: 0,
     };
