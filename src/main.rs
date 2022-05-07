@@ -65,7 +65,7 @@ fn main() {
             Err(_) => {
                 let error_message = JsonErrorMessage{
                     error_desc: "Temperature sensors error: reading timeout".to_string(),
-                    date_time: "".to_string() }.serialize();
+                    date_time: Local::now().to_string() }.serialize();
                 send_data_via_http(error_message,&config.url);
             }
         }
