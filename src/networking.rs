@@ -1,16 +1,17 @@
-use std::sync::Condvar;
 use reqwest::blocking::Response;
 use reqwest::StatusCode;
+use std::sync::Condvar;
 
-pub fn send_data_via_http (formatted_message: String, url: &String){
+pub fn send_data_via_http(formatted_message: String, url: &String) {
     let client = reqwest::blocking::Client::new();
-    let res = client.post(url)
-        .body(formatted_message)
-        .send();
+    let res = client.post(url).body(formatted_message).send();
 
     match res {
         Ok(done) => {
-            println!("Sending confirmed. Received result: \n{}", done.text().unwrap());
+            println!(
+                "Sending confirmed. Received result: \n{}",
+                done.text().unwrap()
+            );
         }
         Err(err) => {
             println!("Error occurred: \n{}", err);
