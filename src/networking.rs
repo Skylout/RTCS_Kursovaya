@@ -1,6 +1,4 @@
-use reqwest::blocking::Response;
-use reqwest::StatusCode;
-use std::sync::Condvar;
+
 
 pub fn send_data_via_http(formatted_message: String, url: &String) {
     let client = reqwest::blocking::Client::new();

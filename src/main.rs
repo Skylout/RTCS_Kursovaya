@@ -1,5 +1,5 @@
 use chrono::Local;
-use std::sync::{mpsc, Arc, Mutex};
+use std::sync::{mpsc};
 use std::thread;
 use std::time::Duration;
 use std::env;
@@ -26,10 +26,8 @@ fn main() {
         println!("Lack of URL. Please, write correct URL.\n");
         exit(0);
     }
-    //примечание: CLion умно подсказывает, что эта переменная не должна быть мутабельной
-    //но это не так – чтобы нормально копошиться в её внутренностях надо, чтобы она была мутабельной
 
-    let mut data = Telegram {
+    let data = Telegram {
         temperature_values: (0, 0),
         humidity_values: (0, 0),
         troubles_counter: 0,
