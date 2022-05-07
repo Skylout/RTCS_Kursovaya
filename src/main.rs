@@ -1,9 +1,9 @@
 use chrono::Local;
-use std::sync::{mpsc};
-use std::thread;
-use std::time::Duration;
 use std::env;
 use std::process::exit;
+use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
 
 use crate::data_types::data_types::{JsonDataMessage, JsonErrorMessage, ProgramConfig, Telegram};
 use crate::inner_logic::inner_logic::{copy_mutex, create_mutex};
@@ -22,7 +22,7 @@ mod sensors_data_generation;
 fn main() {
     //а вот раст может только так в аргументы команднйо строки
     let args: Vec<String> = env::args().collect();
-    if args.len() == 1{
+    if args.len() == 1 {
         println!("Lack of URL. Please, write correct URL.\n");
         exit(0);
     }

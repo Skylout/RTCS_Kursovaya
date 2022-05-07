@@ -1,6 +1,6 @@
 pub mod data_types {
     use chrono;
-    use chrono::{Local};
+    use chrono::Local;
     use serde::{Deserialize, Serialize};
     use std::sync::MutexGuard;
 

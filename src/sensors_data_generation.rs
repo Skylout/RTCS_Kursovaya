@@ -11,9 +11,10 @@ pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender:
     if local_int_tuple.0 == 0 {
         local_int_tuple.0 = rng.gen_range(15..24);
     } else {
-        local_int_tuple.0 += rng.gen_range(-2..2);
         if local_int_tuple.0 > 25 {
-            local_int_tuple.0 -= rng.gen_range(0..3);
+            local_int_tuple.0 -= rng.gen_range(0..2);
+        } else {
+            local_int_tuple.0 += rng.gen_range(0..2);
         }
     }
 
@@ -24,9 +25,10 @@ pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender:
     if local_int_tuple.1 == 0 {
         local_int_tuple.1 = local_int_tuple.0;
     } else {
-        local_int_tuple.1 += rng.gen_range(-2..2);
         if local_int_tuple.1 > 25 {
-            local_int_tuple.1 -= rng.gen_range(0..3);
+            local_int_tuple.1 -= rng.gen_range(0..2);
+        } else {
+            local_int_tuple.1 += rng.gen_range(0..2);
         }
     }
     if rng.gen_range(0..101) > 98 {
@@ -51,9 +53,10 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
     if local_int_tuple.0 == 0 {
         local_int_tuple.0 = rng.gen_range(35..55);
     } else {
-        local_int_tuple.0 += rng.gen_range(-2..2);
         if local_int_tuple.0 > 60 {
-            local_int_tuple.0 -= rng.gen_range(0..3);
+            local_int_tuple.0 -= rng.gen_range(0..2);
+        } else {
+            local_int_tuple.0 += rng.gen_range(0..2);
         }
     }
 
@@ -64,9 +67,10 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
     if local_int_tuple.1 == 0 {
         local_int_tuple.1 = local_int_tuple.0;
     } else {
-        local_int_tuple.1 += rng.gen_range(-2..2);
         if local_int_tuple.1 > 60 {
-            local_int_tuple.1 -= rng.gen_range(0..3);
+            local_int_tuple.1 -= rng.gen_range(0..2);
+        } else {
+            local_int_tuple.1 += rng.gen_range(0..2);
         }
     }
 
