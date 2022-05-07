@@ -6,8 +6,6 @@ use std::thread::sleep;
 use std::time::{Duration};
 
 
-//TODO: придумать как отправлять данные на проверку, не выкидывая на мусорку мьютексы.
-// Подсказка - догадайся, как сделать сендер мьютексов - тем самым можно передавать значения
 pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &Sender<bool>){
     let mut local_int_tuple = local_mutex.lock().unwrap();
     let mut rng = rand::thread_rng();
@@ -59,7 +57,7 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
         } else {
             local_int_tuple.0 += rng.gen_range(-3..4);
             if local_int_tuple.0 > 60 {
-                local_int_tuple.0 -= 1;
+                local_int_tuple.0 -= rng.gen_range(-2..3);
             }
         }
 
@@ -72,7 +70,7 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
         } else {
             local_int_tuple.1 += rng.gen_range(-3..4);
             if local_int_tuple.1 > 60 {
-                local_int_tuple.1 -= 1;
+                local_int_tuple.1 -= rng.gen_range(-2..3);
             }
         }
 

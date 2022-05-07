@@ -9,10 +9,10 @@ fn send_data_via_http (formatted_message: String, url: String){
 
     match res {
         Ok(done) => {
-            println!("Sending confirmed");
+            println!("Sending confirmed. Received result: \n{}", done.text().unwrap());
         }
         Err(err) => {
-            println!("Error occurred: {}", err);
+            println!("Error occurred: \n{}", err);
         }
     }
 }

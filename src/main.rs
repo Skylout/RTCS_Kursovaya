@@ -1,10 +1,9 @@
 use std::sync::{Arc, mpsc, Mutex};
-use std::sync::mpsc::RecvTimeoutError;
 use std::thread;
 use std::time::{Duration};
 
 use crate::sensors_data_generation::{humidity_data_generation, temperature_data_generation};
-use crate::data_types::data_types::{JsonMessage, Telegram, ProgramConfig};
+use crate::data_types::data_types::{JsonDataMessage, Telegram, ProgramConfig, JsonErrorMessage};
 use crate::inner_logic::inner_logic::{copy_mutex, create_mutex};
 
 mod sensors_data_generation;
@@ -25,7 +24,8 @@ fn main() {
 
     let mut config = ProgramConfig{
         url: "http://localhost:1880/posting_link".to_string(),
-        sensors_errors: 0
+        sensors_errors: 0,
+        sending_errors: 0
     };
 
     let mut sensor_signals = (false, false);
@@ -48,13 +48,12 @@ fn main() {
 
     // цикл чтения сигналов по дедлайну.
     // дедлайн прошел - ошибка и отправка сообщения об ошибке.
-    // поток проверка и результат проверки
-    // данные неправильные - ошибка и отправка сообщения об ошибке.
+    //примечание: да, тут уже синхронные функции. nuff said
     loop{
 
         match temperature_rx.recv_timeout(Duration::from_secs(5)) {
             Ok(_) => {
-
+                sensor_signals.0 = true;
             }
             Err(_) => {
 
@@ -63,7 +62,7 @@ fn main() {
 
         match humidity_rx.recv_timeout(Duration::from_secs(5)) {
             Ok(_) => {
-
+                sensor_signals.1 = true;
             }
             Err(_) => {
 
@@ -71,8 +70,8 @@ fn main() {
         }
 
         if sensor_signals.0 || sensor_signals.1{
-            let temp_data_obj = JsonMessage::init_via_mutex(sensor_mutexs.0.lock().unwrap(), sensor_mutexs.1.lock().unwrap());
-            let temp_json_obj = temp_data_obj.serialization();
+            let temp_data_obj = JsonDataMessage::init_via_mutex(sensor_mutexs.0.lock().unwrap(),
+                                                                sensor_mutexs.1.lock().unwrap()).serialization();
 
         } else {
             config.sensors_errors +=1;
