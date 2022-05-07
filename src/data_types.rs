@@ -22,6 +22,12 @@ pub mod data_types {
         pub date_time: String
     }
 
+    impl JsonErrorMessage{
+        pub fn serialize(&self)->String{
+            return serde_json::to_string(&self).unwrap();
+        }
+    }
+
     #[derive(Serialize, Deserialize)]
     pub struct JsonDataMessage {
         pub temperature_value1: i32,
@@ -33,7 +39,7 @@ pub mod data_types {
 
     impl JsonDataMessage {
         pub fn serialization (&self)->String{
-            return  serde_json::to_string(&self).unwrap();
+            return serde_json::to_string(&self).unwrap();
         }
 
         pub fn init_via_mutex (temperature_mutex: MutexGuard<(i32,i32)>,
