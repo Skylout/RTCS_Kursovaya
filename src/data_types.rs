@@ -16,7 +16,7 @@ pub mod data_types {
         pub sensor_data_endpoint: String,
         pub owner_data_endpoint: String,
         pub sensors_errors: i32, //погрешность
-        pub sending_errors: i32,
+        pub sending_errors: i32
     }
 
     #[derive(Serialize, Deserialize)]

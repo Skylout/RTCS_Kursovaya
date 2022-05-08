@@ -1,8 +1,10 @@
 use chrono::Local;
 use std::env;
+use std::env::args;
 use std::process::exit;
 use std::sync::mpsc;
 use std::thread;
+use std::thread::sleep;
 use std::time::Duration;
 
 use crate::data_types::data_types::{JsonDataMessage, JsonErrorMessage, ProgramConfig, Telegram};
@@ -22,10 +24,20 @@ mod sensors_data_generation;
 fn main() {
     //а вот раст может только так в аргументы команднйо строки
     let args: Vec<String> = env::args().collect();
+    let mut timeout_rcv: u64= 5;
+    let mut timeout_before_http: u64 = 0;
+
     if args.len() == 1 {
         println!("Lack of URL. Please, write correct URL.\n");
         exit(0);
-    }
+    } else {
+        if args.get(2) != None{
+            timeout_before_http = args.get(2).unwrap().to_string().parse::<u64>().unwrap();
+        }
+        if args.get(3) != None{
+            timeout_rcv = args.get(3).unwrap().to_string().parse::<u64>().unwrap();
+        }
+    };
 
     let data = Telegram {
         temperature_values: (0, 0),
@@ -67,7 +79,7 @@ fn main() {
     loop {
         //let mut server_response: String;
 
-        match temperature_rx.recv_timeout(Duration::from_secs(5)) {
+        match temperature_rx.recv_timeout(Duration::from_secs(timeout_rcv.clone())) {
             Ok(_) => {
                 sensor_signals.0 = true;
             }
@@ -84,7 +96,7 @@ fn main() {
             }
         }
 
-        match humidity_rx.recv_timeout(Duration::from_secs(5)) {
+        match humidity_rx.recv_timeout(Duration::from_secs(timeout_rcv.clone())) {
             Ok(_) => {
                 sensor_signals.1 = true;
             }
@@ -107,6 +119,7 @@ fn main() {
                 sensor_mutexs.1.lock().unwrap(),
             )
             .serialization();
+            sleep(Duration::from_secs(timeout_before_http.clone()));
             send_data_via_http(temp_data_obj,
                                &config.url,
                                &config.prefix,
