@@ -33,11 +33,14 @@ fn main() {
         troubles_counter: 0,
     };
 
-    //http://localhost:1880/posting_link
+
     let mut config = ProgramConfig {
-        url: args[1].to_string(),
+        url: args[1].clone().to_string(),
+        prefix: "/hook".to_string(),
+        sensor_data_endpoint: "/process-sensor-data".to_string(),
+        owner_data_endpoint: "/process-change-owner".to_string(),
         sensors_errors: 0,
-        sending_errors: 0,
+        sending_errors: 0
     };
 
     let mut sensor_signals = (false, false);
@@ -74,7 +77,10 @@ fn main() {
                     date_time: Local::now().to_string(),
                 }
                 .serialize();
-                send_data_via_http(error_message, &config.url);
+                send_data_via_http(error_message,
+                                   &config.url,
+                                   &config.prefix,
+                                   &config.sensor_data_endpoint);
             }
         }
 
@@ -88,7 +94,10 @@ fn main() {
                     date_time: Local::now().to_string(),
                 }
                 .serialize();
-                send_data_via_http(error_message, &config.url);
+                send_data_via_http(error_message,
+                                   &config.url,
+                                   &config.prefix,
+                                   &config.sensor_data_endpoint);
             }
         }
 
@@ -98,7 +107,10 @@ fn main() {
                 sensor_mutexs.1.lock().unwrap(),
             )
             .serialization();
-            send_data_via_http(temp_data_obj, &config.url);
+            send_data_via_http(temp_data_obj,
+                               &config.url,
+                               &config.prefix,
+                               &config.sensor_data_endpoint);
         } else {
             config.sensors_errors += 1;
             if config.sensors_errors == 3 {

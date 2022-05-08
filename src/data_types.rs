@@ -12,6 +12,9 @@ pub mod data_types {
 
     pub struct ProgramConfig {
         pub url: String,
+        pub prefix: String,
+        pub sensor_data_endpoint: String,
+        pub owner_data_endpoint: String,
         pub sensors_errors: i32, //погрешность
         pub sending_errors: i32,
     }
@@ -30,11 +33,11 @@ pub mod data_types {
 
     #[derive(Serialize, Deserialize)]
     pub struct JsonDataMessage {
-        pub temperature_value1: i32,
-        pub temperature_value2: i32,
-        pub humidity_value1: i32,
-        pub humidity_value2: i32,
-        pub date_time: String,
+        pub temperatureValue1: i32,
+        pub temperatureValue2: i32,
+        pub humidityValue1: i32,
+        pub humidityValue2: i32,
+        pub dateTime: String,
     }
 
     impl JsonDataMessage {
@@ -47,11 +50,11 @@ pub mod data_types {
             humidity_mutex: MutexGuard<(i32, i32)>,
         ) -> JsonDataMessage {
             return JsonDataMessage {
-                temperature_value1: temperature_mutex.0,
-                temperature_value2: temperature_mutex.1,
-                humidity_value1: humidity_mutex.0,
-                humidity_value2: humidity_mutex.1,
-                date_time: Local::now().to_string(),
+                temperatureValue1: temperature_mutex.0,
+                temperatureValue2: temperature_mutex.1,
+                humidityValue1: humidity_mutex.0,
+                humidityValue2: humidity_mutex.1,
+                dateTime: Local::now().to_string(),
             };
         }
     }
