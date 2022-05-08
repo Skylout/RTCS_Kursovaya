@@ -1,13 +1,18 @@
+use chrono::{DateTime, Duration};
 use reqwest::header::CONTENT_TYPE;
 
-pub fn send_data_via_http(formatted_message: String, url: &String, prefix: &String, endpoint: &String) {
+pub fn send_data_via_http(formatted_message: String, url: &String, prefix: &String, endpoint: &String, timeout: u64) {
     let client = reqwest::blocking::Client::new();
 
     let mut destination_url = url.clone();
     destination_url.push_str(prefix);
     destination_url.push_str(endpoint);
 
-    let res = client.post(&destination_url).header(CONTENT_TYPE, "application/json; charset=utf-8").body(formatted_message.clone()).send();
+    let res = client.post(&destination_url)
+        .header(CONTENT_TYPE, "application/json; charset=utf-8")
+        .body(formatted_message.clone())
+        .timeout(core::time::Duration::from_secs(timeout))
+        .send();
 
     match res {
         Ok(done) => {

@@ -24,7 +24,7 @@ mod sensors_data_generation;
 fn main() {
     //а вот раст может только так в аргументы команднйо строки
     let args: Vec<String> = env::args().collect();
-    let mut timeout_rcv: u64= 5;
+    let mut timeout_after_http: u64= 5;
     let mut timeout_before_http: u64 = 0;
 
     if args.len() == 1 {
@@ -35,7 +35,7 @@ fn main() {
             timeout_before_http = args.get(2).unwrap().to_string().parse::<u64>().unwrap();
         }
         if args.get(3) != None{
-            timeout_rcv = args.get(3).unwrap().to_string().parse::<u64>().unwrap();
+            timeout_after_http = args.get(3).unwrap().to_string().parse::<u64>().unwrap();
         }
     };
 
@@ -79,7 +79,7 @@ fn main() {
     loop {
         //let mut server_response: String;
 
-        match temperature_rx.recv_timeout(Duration::from_secs(timeout_rcv.clone())) {
+        match temperature_rx.recv_timeout(Duration::from_secs(5)) {
             Ok(_) => {
                 sensor_signals.0 = true;
             }
@@ -92,11 +92,12 @@ fn main() {
                 send_data_via_http(error_message,
                                    &config.url,
                                    &config.prefix,
-                                   &config.sensor_data_endpoint);
+                                   &config.sensor_data_endpoint,
+                timeout_after_http);
             }
         }
 
-        match humidity_rx.recv_timeout(Duration::from_secs(timeout_rcv.clone())) {
+        match humidity_rx.recv_timeout(Duration::from_secs(5)) {
             Ok(_) => {
                 sensor_signals.1 = true;
             }
@@ -109,7 +110,8 @@ fn main() {
                 send_data_via_http(error_message,
                                    &config.url,
                                    &config.prefix,
-                                   &config.sensor_data_endpoint);
+                                   &config.sensor_data_endpoint,
+                                   timeout_after_http.clone());
             }
         }
 
@@ -123,7 +125,8 @@ fn main() {
             send_data_via_http(temp_data_obj,
                                &config.url,
                                &config.prefix,
-                               &config.sensor_data_endpoint);
+                               &config.sensor_data_endpoint,
+                                timeout_after_http.clone());
         } else {
             config.sensors_errors += 1;
             if config.sensors_errors == 3 {
