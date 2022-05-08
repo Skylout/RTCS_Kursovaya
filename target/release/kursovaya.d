@@ -1,0 +1,1 @@
+/Users/leonid/CLionProjects/kursovaya/target/release/kursovaya: /Users/leonid/CLionProjects/kursovaya/src/data_types.rs /Users/leonid/CLionProjects/kursovaya/src/inner_logic.rs /Users/leonid/CLionProjects/kursovaya/src/main.rs /Users/leonid/CLionProjects/kursovaya/src/networking.rs /Users/leonid/CLionProjects/kursovaya/src/sensors_data_generation.rs
