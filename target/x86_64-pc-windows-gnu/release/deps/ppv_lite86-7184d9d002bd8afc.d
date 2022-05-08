@@ -1,0 +1,11 @@
+/Users/leonid/CLionProjects/kursovaya/target/x86_64-pc-windows-gnu/release/deps/ppv_lite86-7184d9d002bd8afc.rmeta: /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/lib.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/soft.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/types.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/mod.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/sse2.rs
+
+/Users/leonid/CLionProjects/kursovaya/target/x86_64-pc-windows-gnu/release/deps/libppv_lite86-7184d9d002bd8afc.rlib: /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/lib.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/soft.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/types.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/mod.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/sse2.rs
+
+/Users/leonid/CLionProjects/kursovaya/target/x86_64-pc-windows-gnu/release/deps/ppv_lite86-7184d9d002bd8afc.d: /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/lib.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/soft.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/types.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/mod.rs /Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/sse2.rs
+
+/Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/lib.rs:
+/Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/soft.rs:
+/Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/types.rs:
+/Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/mod.rs:
+/Users/leonid/.cargo/registry/src/github.com-1ecc6299db9ec823/ppv-lite86-0.2.16/src/x86_64/sse2.rs:
