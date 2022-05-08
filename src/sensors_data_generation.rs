@@ -9,7 +9,7 @@ pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender:
     let mut rng = rand::thread_rng();
 
     if local_int_tuple.0 == 0 {
-        local_int_tuple.0 = rng.gen_range(15..24);
+        local_int_tuple.0 = rng.gen_range(20..24);
     } else {
         if local_int_tuple.0 > 25 {
             local_int_tuple.0 -= rng.gen_range(0..2);
@@ -18,7 +18,7 @@ pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender:
         }
     }
 
-    if rng.gen_range(0..101) > 98 {
+    if rng.gen_range(0..=1000) == 1000 {
         local_int_tuple.0 = rng.gen_range(0..100);
     }
 
@@ -31,7 +31,7 @@ pub fn temperature_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender:
             local_int_tuple.1 += rng.gen_range(0..2);
         }
     }
-    if rng.gen_range(0..101) > 98 {
+    if rng.gen_range(0..=1000) == 1000 {
         local_int_tuple.1 = rng.gen_range(0..100);
     }
 
@@ -51,7 +51,7 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
     let mut rng = rand::thread_rng();
 
     if local_int_tuple.0 == 0 {
-        local_int_tuple.0 = rng.gen_range(35..55);
+        local_int_tuple.0 = rng.gen_range(50..=59);
     } else {
         if local_int_tuple.0 > 60 {
             local_int_tuple.0 -= rng.gen_range(0..2);
@@ -60,7 +60,7 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
         }
     }
 
-    if rng.gen_range(0..101) > 98 {
+    if rng.gen_range(0..=1000) == 1000 {
         local_int_tuple.0 = rng.gen_range(60..100);
     }
 
@@ -74,7 +74,7 @@ pub fn humidity_data_generation(local_mutex: &Arc<Mutex<(i32, i32)>>, sender: &S
         }
     }
 
-    if rng.gen_range(0..101) > 98 {
+    if rng.gen_range(0..=1000) == 1000 {
         local_int_tuple.1 = rng.gen_range(60..100);
     }
 
