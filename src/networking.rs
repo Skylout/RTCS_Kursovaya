@@ -1,6 +1,8 @@
+use reqwest::header::CONTENT_TYPE;
+
 pub fn send_data_via_http(formatted_message: String, url: &String) {
     let client = reqwest::blocking::Client::new();
-    let res = client.post(url).body(formatted_message).send();
+    let res = client.post(url).header(CONTENT_TYPE, "application/json; charset=utf-8").body(formatted_message).send();
 
     match res {
         Ok(done) => {
